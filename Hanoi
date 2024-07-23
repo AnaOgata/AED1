@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+// Função recursiva para resolver a Torre de Hanói
+int hanoi(int n, char origem, char destino, char auxiliar, int *contador)
+{
+    // Se sobrar apenas o disco 1, fazer o movimento e retornar
+    if(n == 1)
+    {
+        /*printf("\nMova o disco 1 da base %c para a base %c", origem, destino);*/
+        (*contador)++;
+        return *contador;
+    }
+
+    // Mover o n-1 discos de origem para auxiliar, usando destino como auxiliar
+    hanoi(n-1, origem, auxiliar, destino, contador);
+
+    // Mover o disco restante de origem para destino
+    /*printf("\nMova o disco %d da base %c para a base %c", n, origem, destino);*/
+    (*contador)++;
+
+    // Mover os n-1 discos de auxiliar para destino usando origem como auxiliar
+    hanoi(n-1, auxiliar, destino, origem, contador);
+
+    return *contador;
+}
+
+int main()
+{
+    int n;
+    int contador = 0;
+    /*printf("Digite o número de discos: \n");*/
+    scanf("%d", &n);
+
+    /*printf("Para resolver a torre de Hanói faça: \n");*/
+    hanoi(n, 'A', 'C', 'B', &contador);
+    printf("\n%d\n", contador);
+
+    return 0;
+}
