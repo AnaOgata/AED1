@@ -1,0 +1,118 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+typedef struct No {
+    int numero;
+    struct No *proximo;
+} No;
+
+typedef struct Pilha {
+    No *topo;
+} Pilha;
+
+void pop(Pilha *pilha, int *descartes);
+void push(Pilha *pilha, int numero);
+void moveTopo(Pilha *pilha);
+void stack(Pilha *pilha);
+void apaga(Pilha *pilha);
+short qtsDescartes;
+
+int main() {
+    unsigned short carta;
+    Pilha pilha;
+    short i;
+
+    while (true) {
+        scanf("%hu", &carta);
+
+        if (carta == 0 || carta > 50)
+            return 0;
+
+        stack(&pilha);
+        int descartes[carta];
+
+        for (i = carta; i > 0; i--)
+            push(&pilha, i);
+
+        qtsDescartes = 0;
+        pop(&pilha, descartes);
+
+        printf("Discarded cards:");
+        for (i = 0; i < qtsDescartes; i++) {
+            printf(" %d", descartes[i]);
+            if (i != qtsDescartes - 1)
+                printf(",");
+        }
+
+        if (pilha.topo)
+            printf("\nRemaining card: %d\n", pilha.topo->numero);
+        else
+            printf("\nRemaining card: None\n");
+
+        erase(&pilha);
+    }
+}
+
+void stack(Pilha *pilha) {
+    pilha->topo = NULL;
+}
+
+void push(Pilha *pilha, int carta) {
+    No *auxiliar = (No *)malloc(sizeof(No));
+    if (!auxiliar) {
+        fprintf(stderr, "Memory allocation error\n");
+        exit(1);
+    }
+    auxiliar->proximo = pilha->topo;
+    pilha->topo = auxiliar;
+    auxiliar->numero = carta;
+}
+
+void pop(Pilha *pilha, int *descartes) {
+    No *auxiliar;
+
+    if (!pilha->topo)
+        return;
+
+    if (!pilha->topo->proximo) {
+        descartes[0] = pilha->topo->numero;
+        qtsDescartes = 1;
+        return;
+    }
+
+    while (pilha->topo->proximo) {
+        auxiliar = pilha->topo;
+        descartes[qtsDescartes++] = auxiliar->numero;
+        pilha->topo = pilha->topo->proximo;
+        free(auxiliar);
+        moveTopo(pilha);
+    }
+}
+
+void moveTopo(Pilha *pilha) {
+    No *auxiliar, *base;
+
+    if (!pilha->topo || !pilha->topo->proximo)
+        return;
+
+    auxiliar = pilha->topo;
+    pilha->topo = pilha->topo->proximo;
+
+    base = pilha->topo;
+    while (base->proximo)
+        base = base->proximo;
+
+    base->proximo = auxiliar;
+    auxiliar->proximo = NULL;
+}
+
+void erase(Pilha *pilha) {
+    No *auxiliar;
+
+    while (pilha->topo) {
+        auxiliar = pilha->topo;
+        pilha->topo = pilha->topo->proximo;
+        free(auxiliar);
+    }
+}
