@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+/*Exponenciação. Escreva uma função recursiva eficiente que receba inteiros positivos k e n e calcule o valor de kn (k elevado a n).
+Suponha que kn cabe em um int (veja Seção C.2). Quantas multiplicações sua função executa aproximadamente?*/
+
+int potencia(int k, int n)
+{
+    if(n == 0)
+        return 1;
+    else if(n% 2 == 0)
+    {
+        int temp = potencia(k, n / 2);
+        return temp * temp;
+    }
+    else
+    {
+        int aux = potencia(k, (n-1) / 2);
+        return k * aux * aux;
+    }
+}
+
+int main()
+{
+    int k = 2;
+    int n = 5;
+    int resultado = potencia(k, n);
+
+    printf("%d elevadp a %d é igual a %d! \n", k, n, resultado);
+
+    return 0;
+}
