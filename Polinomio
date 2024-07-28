@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+/*A entrada para cada teste se inicia informado a quantidade de elementos N (1 ≤ N ≤ 1023) que vão compor o polinômio. 
+Após isso deve-se fornecer pares ( C E ) correspondentes aos valores dos coeficientes C (-10000 ≤ C ≤ 10000) e o 
+valores dos expoentes E (0 ≤ E ≤ 1023.Por exemplo, se N = 5, então haverá 5 pares ( C E ) para serem informados.*/
+
+struct monomios
+{
+    int coeficiente;
+    int expoente;
+};
+
+int main()
+{
+    int N;
+    int p[N];
+    typedef struct monomios Monomios;
+
+    printf("Entre com a quantidade de elementos que você deseja ter em seu polinômio: \n");
+    scanf("%d", N);
+
+    int i;
+    for(i = 0; i < N; i++)
+    {
+        printf("Entre com o %d monômio do seu polinômio: \n", i+1);
+        scanf("%d %d\n", &Monomios.coeficiente, &Monomios.expoente);
+    }
+}
