@@ -1,0 +1,76 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+struct dados
+{
+    int nPiloto;
+    char *piloto[20];
+};
+
+
+int main()
+{
+    int N;
+    int i = 0;
+
+    /*printf("Digite a quantidade de pilotos que irão competir nessa corrida maluca: \n");*/
+    scanf("%d", &N);
+    do
+    {
+        /*printf("Digite um número válido de pilotos (3<N<1000): \n");*/
+        scanf("%d", &N);
+    } while (N < 3 || N > 1000);
+
+    struct dados *d = (struct dados*) malloc(N * sizeof(struct dados));
+    do
+    {
+        /*printf("Digite o número do carro e o nome do piloto: \n");*/
+        scanf("%d ", &d[i].nPiloto);
+        scanf("%s", &d[i].piloto);
+        printf("\n");
+        i++;
+    } while (i < N);
+
+    i = 0;
+    do
+    {
+        free(d);
+        i++;
+    } while (i < N);
+
+    /*printf("Digite a ordem de largada dos pilotos, apenas informando o número de seus carros: \n");*/
+    int z;
+    int vet[N];
+    for(z = 0; z < N; z++)
+    {
+        scanf("%d", &vet[z]);
+        printf("%d ", vet[z]);
+    }
+
+    int ultrapassagem, *p, *q;
+    int x, u;
+    do
+    {
+        scanf("%d", &ultrapassagem);
+        for(x = 0; x < N; x++)
+        {
+            if(ultrapassagem == vet[x])
+            {
+                u = x;
+            }
+            if(ultrapassagem != vet[0])
+            {
+                p = &vet[u];
+                q = p;
+                p = p - 1;
+            }
+        }
+    } while (ultrapassagem != -1);
+
+    int k;
+    for(k = 0; k < 3; k++)
+    {
+        printf("%d %s \n", vet[k], d[i].piloto);
+    }
+}
