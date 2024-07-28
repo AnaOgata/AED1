@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+/*Soma de dígitos. Escreva uma função recursiva que calcule a soma dos dígitos decimais de um inteiro positivo. A
+soma dos dígitos de 132, por exemplo, é 6.*/
+
+int somaDigitos(int numero)
+{
+    if(numero < 10)
+    {
+        return numero;
+        // Caso base: se o número tem apenas um dígito, retorna ele mesmo
+    }
+    else
+    {
+        return numero % 10 + somaDigitos(numero / 10);
+        // Chamada recursiva: soma o último dígito ao resultado da soma dos dígitos do restante do número
+    }
+}
+
+int main()
+{
+    int numero = 132;
+    int aux = somaDigitos(numero);
+
+    printf("A soma dos dígitos de %d é %d!\n", numero, aux);
+    return 0;
+}
