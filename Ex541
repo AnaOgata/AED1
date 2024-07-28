@@ -1,0 +1,114 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+/* Implemente uma fila em uma lista encadeada com célula-cabeça. */
+typedef struct cel{
+    int conteudo;
+    struct cel *seg;
+} celula;
+
+typedef struct queue{
+    celula *cabeca;
+    celula *cauda;
+} fila;
+
+celula *CriarCelula(int conteudo)
+{
+    celula *nova = (celula*)malloc(sizeof(celula));
+    if(nova == NULL)
+    {
+        printf("Erro: Falha na alocação de memória.\n");
+        exit(EXIT_FAILURE);
+    }
+    nova->conteudo = conteudo;
+    nova->seg = NULL;
+    return nova;
+}
+
+fila *Inicializar()
+{
+    fila *Fila = (fila*)malloc(sizeof(fila));
+    if(Fila == NULL)
+    {
+        printf("Erro: Falha na alocação de memória.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    Fila->cabeca = NULL;
+    Fila->cauda = NULL;
+    return Fila;
+}
+
+int esta_vazio(fila *fila)
+{
+    return (fila->cabeca == NULL);
+}
+
+void Insere(fila *fila, int conteudo)
+{
+    celula *nova = CriarCelula(conteudo);
+    if(esta_vazio(fila))
+    {
+        fila->cabeca = nova;
+        fila->cauda = nova;
+    }
+    else
+    {
+        fila->cauda->seg = nova;
+        fila->cauda = nova;
+    }
+}
+
+int Remove(fila *fila)
+{
+    if(esta_vazio(fila))
+    {
+        printf("Erro: A fila está vazia.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    int conteudo = fila->cabeca->conteudo;
+    celula *temp = fila->cabeca;
+    fila->cabeca = fila->cabeca->seg;
+    free(temp);
+    if (fila->cabeca == NULL) {
+        fila->cauda = NULL;
+    }
+    return conteudo;
+}
+
+void Imprime(fila *fila)
+{
+    if(esta_vazio(fila))
+    {
+        printf("Erro: A fila está vazia.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    printf("Elementos da fila: ");
+    celula *x = fila->cabeca;
+    while(x != NULL)
+    {
+        printf("%d ", x->conteudo);
+        x = x->seg;
+    }
+    printf("\n");
+}
+
+int main()
+{
+    fila *fila = Inicializar();
+
+    Insere(fila, 10);
+    Insere(fila, 20);
+    Insere(fila, 30);
+
+    Imprime(fila);
+
+    printf("Removido da fila: %d\n", remove(fila));
+    printf("Removido da fila: %d\n", remove(fila));
+
+    Imprime(fila);
+
+    return 0;
+}
