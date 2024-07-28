@@ -1,0 +1,19 @@
+#include <stdio.h>
+
+/* Lista sem cabeça. Escreva uma versão da função Busca para listas sem cabeça. */
+struct cel{
+    int conteudo;
+    struct cel *seg;
+};
+
+typedef struct cel celula;
+
+celula *Busca(int x, celula *lst)
+{
+    celula *p;
+    p = lst; // Lista sem cabeça
+
+    while( p != NULL && p->conteudo != x)
+        p = p->seg;
+    return p;
+}
