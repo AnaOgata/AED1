@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 5
+
+/* Considere a manipulação de uma fila circular. Escreva uma função que devolva o tamanho da fila. Escreva uma função que
+remova um elemento da fila e devolva esse elemento; se a fila estiver vazia, não faça nada. Escreva uma função que verifique
+se a fila está cheia e em caso negativo insira um objeto dado na fila. (Lembre-se de que uma fila é um pacote com três
+objetos: um vetor e dois índices. Não use variáveis globais.) */
+
+typedef struct {
+    int fila[MAX_SIZE];
+    int inicio;
+    int fim;
+} FilaCiircular;
+
+void inicializar(FilaCiircular *fila)
+{
+    fila->inicio = 0;
+    fila->fim = 0;
+}
+
+int tamanho(FilaCiircular *fila)
+{
+    if(fila->fim >= fila->inicio)
+        return fila->fim - fila->inicio;
+    else
+        return MAX_SIZE - (fila->inicio - fila->fim);
+}
+
+int romove(FilaCiircular *fila)
+{
+    if(tamanho(fila) == 0)
+        return -1; // Indica que a fila está vazia e encerra o programa
+
+    int elemento_removido = fila->fila[fila->inicio];
+    fila->inicio = (fila->inicio + 1) % MAX_SIZE; // Atualiza o índice da fila
+    return elemento_removido;
+}
+
+int esta_cheia(FilaCiircular *fila)
+{
+    return tamanho(fila) == MAX_SIZE;
+}
+
+void inserir(FilaCiircular *fila, int elemento)
+{
+    if(!esta_cheia(fila))
+    {
+        fila->fila[fila->fim] = elemento;
+        fila->fim = (fila->fim+1) % MAX_SIZE;
+    }
+}
+
+int main()
+{
+    FilaCiircular fila;
+    inicializar(&fila);
+
+    printf("Tamanho da fila: %d\n", tamanho(&fila));
+    printf("A lista está cheia? %s\n", esta_cheia(&fila) ? "Sim" : "Não");
+
+    inserir(&fila, 1);
+    inserir(&fila, 2);
+    inserir(&fila, 3);
+    inserir(&fila, 4);
+    inserir(&fila, 5);
+
+    printf("Tamanho da fila: %d\n", tamanho(&fila));
+    printf("A lista está cheia? %s\n", esta_cheia(&fila) ? "Sim" : "Não");
+
+    printf("Elemento removido: %d\n", remove(&fila));
+    printf("Tamanho da fila: %d\n", tamanho(&fila));
+
+    inserir(&fila, 6);
+
+    printf("Elemento removido: %d\n", remove(&fila));
+    printf("Tamanho da fila: %d\n", tamanho(&fila));
+
+    return 0;
+}
