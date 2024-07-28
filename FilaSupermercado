@@ -1,0 +1,61 @@
+#include <stdio.h>
+
+int main()
+{
+    int N, M;
+    int Vi[N];
+    int Cj[M];
+
+    scanf("%d", &N);
+    scanf("%d", &M);
+    int i;
+    for(i = 0; i < N; i++)
+    {
+        scanf("%d", &Vi[i]);
+    }
+    for(i = 0; i < M; i++)
+    {
+        scanf("%d", &Cj[i]);
+    }
+
+    int aux[N];
+    int t = 0;
+    while(t < M)
+    {
+        if( t < N)
+        {
+            aux[t] = Vi[t] * Cj[t];
+            t++;
+        }
+        else
+        {
+            int indice = aux[0];
+            int z = 0;
+            for(i = 0; i < N; i++)
+            {
+                if(indice > aux[i])
+                {
+                    indice = aux[i];
+                    z = i;
+                }
+
+                aux[z] += Vi[t] * Cj[z];
+                z = 0;
+                t++;
+            }
+        }
+    }
+    int indice = aux[0];
+
+    for(i = 0; i < N; i++)
+    {
+        if(indice < aux[i])
+        {
+            indice = aux[i];
+        }
+    }
+
+    printf("%d\n", indice);
+
+    return 0;
+}
