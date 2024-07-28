@@ -1,0 +1,18 @@
+#include <stdio.h>
+
+/*Por que o código abaixo está errado?
+    void troca (int *i, int *j) {
+        int *temp;
+        *temp = *i; *i = *j; *j = *temp; }
+*/
+
+/*O código acima está errado, pois a variável temporária está sendo usada como ponteiro, ou seja, ela aponta para
+o endereço de uma outra variável.
+
+void troca (int *i, int *j)
+{
+    int *temp; //temp é um ponteiro para um inteiro
+    *temp = *i; //o lugar que temp aponta recebe o valor ao qual i aponta
+    *i = *j; //o lugar que i está apontando recebe o valor do lugar que j está apontando
+    *j = *temp; //o lugar que j está apontando recebe o valor do lugar que temp está apontando
+}*/
