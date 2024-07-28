@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+/* Mínimo. Escreva uma função que encontre uma célula de conteúdo mínimo. Faça duas versões: uma iterativa e uma recursiva. */
+struct cel{
+    int conteudo;
+    struct cel *seg;
+};
+
+typedef struct cel celula;
+
+celula *BuscaMin(int *min, celula *lst)
+{
+    celula *p, *q;
+    p = lst->seg;
+    q = p->seg;
+    min = p;
+
+    while(p != NULL)
+    {
+        if(p->conteudo > q->conteudo)
+        {
+            int temp = p;
+            min = q;
+            q = temp;
+        }
+        else
+        {
+            q = q->seg;
+        }
+    }
+}
