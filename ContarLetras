@@ -1,0 +1,271 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+//A contagem de letras consiste em saber quantas vezes determinadas letras são encontradas na string.
+//Deve-se escrever um programa que aborde essa característica, ou seja, escreva um programa que recebe uma string
+//de comprimento N da entrada padrão e contabiliza a quantidade de cada letra do alfabeto presente de forma case 
+//insensitive (desconsiderando maiúsculas e minúsculas).
+
+int main()
+{
+    char string[256];
+    char stringI[256];
+    int tamanho, tamanhoS;
+
+    printf("Digite a frase que deseja contabilizar o total de letras: \n");
+    fgets(string, sizeof(string), stdin);
+
+    tamanho = strlen(string);
+    tamanhoS = tamanho - 1;
+    
+    for(int i = 0; i < tamanhoS; i++)
+    {
+        stringI[i] = tolower(string[i]);
+    }
+
+    int A = 0, B = 0, C = 0, D = 0, E = 0, F = 0, G = 0, H = 0, I = 0, J = 0, K = 0, L = 0, M = 0, N = 0, O = 0, P = 0, Q = 0, R = 0, S = 0, T = 0, U = 0, V = 0, W = 0, X = 0, Y = 0, Z = 0;
+
+    for(int i = 0; i < tamanhoS; i++)
+    {
+        switch (stringI[i])
+        {
+            case 'a':
+            A++;
+            break;
+
+            case 'b':
+            B++;
+            break;
+
+            case 'c':
+            C++;
+            break;
+
+            case 'd':
+            D++;
+            break;
+
+            case 'e':
+            E++;
+            break;
+
+            case 'f':
+            F++;
+            break;
+
+            case 'g':
+            G++;
+            break;
+
+            case 'h':
+            H++;
+            break;
+
+            case 'i':
+            I++;
+            break;
+
+            case 'j':
+            J++;
+            break;
+
+            case 'k':
+            K++;
+            break;
+
+            case 'l':
+            L++;
+            break;
+
+            case 'm':
+            M++;
+            break;
+
+            case 'n':
+            N++;
+            break;
+
+            case 'o':
+            O++;
+            break;
+
+            case 'p':
+            P++;
+            break;
+
+            case 'q':
+            Q++;
+            break;
+
+            case 'r':
+            R++;
+            break;
+
+            case 's':
+            S++;
+            break;
+
+            case 't':
+            T++;
+            break;
+
+            case 'u':
+            U++;
+            break;
+
+            case 'v':
+            V++;
+            break;
+
+            case 'w':
+            W++;
+            break;
+
+            case 'x':
+            X++;
+            break;
+
+            case 'y':
+            Y++;
+            break;
+
+            case 'z':
+            Z++;
+            break;
+
+            default:
+            break;
+        }
+    }
+
+    if(A != 0)
+    {
+        printf("A %d\n", A);
+    }
+
+    if(B != 0)
+    {
+        printf("B %d\n", B);
+    }
+    
+    if(C != 0)
+    {
+        printf("C %d\n", C);
+    }
+
+    if(D != 0)
+    {
+        printf("D %d\n", D);
+    }
+    
+    if(E != 0)
+    {
+        printf("E %d\n", E);
+    }
+
+    if(F != 0)
+    {
+        printf("F %d\n", F);
+    }
+
+    if(G != 0)
+    {
+        printf("G %d\n", G);
+    }
+
+    if(H != 0)
+    {
+        printf("H %d\n", H);
+    }
+
+    if(I != 0)
+    {
+        printf("I %d\n", I);
+    }
+
+    if(J != 0)
+    {
+        printf("J %d\n", J);
+    }
+
+    if(K != 0)
+    {
+        printf("K %d\n", K);
+    }
+
+    if(L != 0)
+    {
+        printf("L %d\n", L);
+    }
+
+    if(M != 0)
+    {
+        printf("M %d\n", M);
+    }
+
+    if(N != 0)
+    {
+        printf("N %d\n", N);
+    }
+
+    if(O != 0)
+    {
+        printf("O %d\n", O);
+    }
+
+    if(P != 0)
+    {
+        printf("P %d\n", P);
+    }
+
+    if(Q != 0)
+    {
+        printf("Q %d\n", Q);
+    }
+
+    if(R != 0)
+    {
+        printf("R %d\n", R);
+    }
+
+    if(S != 0)
+    {
+        printf("S %d\n", S);
+    }
+
+    if(T != 0)
+    {
+        printf("T %d\n", T);
+    }
+
+    if(U != 0)
+    {
+        printf("U %d\n", U);
+    }
+
+    if(V != 0)
+    {
+        printf("V %d\n", V);
+    }
+
+    if(W != 0)
+    {
+        printf("W %d\n", W);
+    }
+
+    if(X != 0)
+    {
+        printf("X %d\n", X);
+    }
+
+    if(Y != 0)
+    {
+        printf("Y %d\n", Y);
+    }
+
+    if(Z != 0)
+    {
+        printf("Z %d\n", Z);
+    }
+}
