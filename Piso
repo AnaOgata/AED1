@@ -1,0 +1,20 @@
+#include <stdio.h>
+
+/*Piso de logaritmo. Escreva uma função recursiva que calcule blog2 nc, ou seja, o piso do logaritmo de n na base 2.*/
+
+int piso_log2(int n)
+{
+    if(n <= 1)
+    {
+        return 0;
+    }
+    return 1 + piso_log2(n/2);
+}
+
+int main()
+{
+    int numero = 16;
+    printf("O piso do logarito de %d na base 2 é: %d! \n", numero, piso_log2(numero));
+
+    return 0;
+}
