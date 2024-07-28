@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+/*Euclides. A seguinte função calcula o maior divisor comum dos inteiros positivos m e n. Escreva uma função recursiva 
+equivalente.
+    int Euclides (int m, int n) {
+        int r;
+        do {
+            r = m % n;
+            m = n; n = r;
+        } while (r != 0);
+        return m; }*/
+
+int EuclidesR(int m, int n)
+{
+    int r;
+    r = m % n;
+
+    if(r == 0)
+    {
+        return m;
+    }
+    else
+    {
+        return EuclidesR(n, r);
+    }
+}
+
+int main()
+{
+    int i = 8;
+    int j = 24;
+    int MDC;
+
+    MDC = EuclidesR(i, j);
+
+    printf("%d", MDC);
+
+    return 0;
+}
