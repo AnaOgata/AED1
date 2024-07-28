@@ -1,0 +1,16 @@
+#include <stdio.h>
+
+/*Escreva a documentação correta da função abaixo.
+    int onde (int x, int v[], int n) {
+        int j = 0;
+        while (j < n && v[j] != x) j += 1;
+        return j; }*/
+
+/*A função abaixo recebe um valor x >= 1 e outro n >= 1 e um vetor v e retorna o valor em que o valor x é 
+encontrado dentro do vetor v[0...n-1] ou retorna n, ou seja, x não está em v[0...n-1]*/
+int onde (int x, int v[], int n)
+{
+    int j = 0;
+    while (j < n && v[j] != x) j += 1;
+    return j;
+}
