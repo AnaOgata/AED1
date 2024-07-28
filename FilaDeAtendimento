@@ -1,0 +1,133 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+/*Escrever um programa que indique a ordem de atendimento de cada cliente por caixa. Na primeira linha da entrada, 
+deve ter primeiro o número de clientes e depois por um espaço o número de atendentes, enquanto na segunda linha,
+deve ter o tempo de atendimento de todos os clientes. E na saída, cada caixa deve aparecer em uma linha, com os 
+clientes que foram atendidos. Para isso é necessário usar TAD Fila simplesmente encadeada Dinâmica.*/
+
+// Definição de um nó da fila
+typedef struct Fila {
+    int f;
+    struct Fila* prox;
+} Fila;
+
+// Agora farei uma estrutura para formar a fila
+typedef struct FilaP {
+    Fila* primeiro;
+    Fila* ultimo;
+} FilaP;
+
+// Função para criar uma fila vazia
+FilaP* CriandoFila()
+{
+    FilaP* filaP = (FilaP*)malloc(sizeof(FilaP));
+    filaP->primeiro = filaP->ultimo = NULL;
+    return filaP;
+}
+
+// Função para enfileirar elementos na fila
+void Enfileirar(FilaP* filaP, int f)
+{
+    Fila* NovaFila = (Fila*)malloc(sizeof(Fila));
+    NovaFila->f = f;
+    NovaFila->prox = NULL;
+
+    if(filaP->ultimo == NULL)
+    {
+        filaP->primeiro = filaP->ultimo = NovaFila;
+    }
+    else
+    {
+        filaP->ultimo->prox = NovaFila;
+        filaP->ultimo = NovaFila;
+    }
+}
+
+// Agora uma função para desenfilerar os elementos da fila
+void Desenfileirar(FilaP* filaP)
+{
+    if(filaP->primeiro == NULL)
+    {
+        return;
+    }
+
+    Fila* t = filaP->primeiro;
+    filaP->primeiro = t->prox;
+
+    if(filaP->primeiro == NULL)
+    {
+        filaP->ultimo = NULL;
+    }
+
+    free(t);
+}
+
+int main()
+{
+    int N, A;
+    int i;
+
+    //printf("Digite a quantidade de clientes (N): \n");
+    scanf("%d", &N);
+    //printf("Digite o número de atendentes (A): \n");
+    scanf("%d", &A);
+
+    FilaP** caixas = (FilaP**)malloc(A * sizeof(FilaP*));
+    for(i = 0; i < A; i++)
+    {
+        caixas[i] = CriandoFila();
+    }
+
+    int* tempo_atendimento = (int*)malloc(A * sizeof(int));
+    for(i = 0; i < A; i++)
+    {
+        tempo_atendimento[i] = 0;
+    }
+
+    //printf("Digite o tempo em que cada cliente é atendido: \n");
+    for(i = 0; i < N; i++)
+    {
+        int T;
+        scanf("%d", &T);
+        
+        // Aqui eu vou encontrar um caixa livre, ou seja, o que recebeu um cliente com o menor tempo de atendimento
+        int min_tempo = tempo_atendimento[0];
+        int caixa_index = 0;
+        int j;
+        for(j = 1; j < A; j++)
+        {
+            if(tempo_atendimento[j] < min_tempo)
+            {
+                min_tempo = tempo_atendimento[j];
+                caixa_index = j;
+            }
+        }
+
+        Enfileirar(caixas[caixa_index], i+1);
+        tempo_atendimento[caixa_index] += T;
+    }
+
+    //printf("A ordem de atendimento dos clientes é: \n");
+    for(i = 0; i < A; i++)
+    {
+        printf("%d: ", i+1);
+        Fila* ordem = caixas[i]->primeiro;
+        while (ordem != NULL)
+        {
+            printf("%d ", ordem->f);
+            ordem = ordem->prox;
+        }
+        printf("\n");
+    }
+
+    // Liberando a mémoria alocada durante o código
+    for(i = 0; i < A; i++)
+    {
+        free(caixas[i]);
+    }
+    free(caixas);
+    free(tempo_atendimento);
+
+    return 0;
+}
