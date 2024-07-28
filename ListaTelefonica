@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+typedef struct {
+    char conteudo[250];
+} Texto;
+
+Texto textos[100050];
+
+int comparar(Texto *, Texto *);
+
+int main(int a, char **b) {
+    unsigned quantidade, i, j;
+    while (scanf("%u", &quantidade) != EOF) {
+        i = 0;
+        unsigned aux = quantidade;
+        while (quantidade--) {
+            scanf("%s", textos[i++].conteudo);
+        }
+
+        unsigned resultado = 0;
+        qsort(textos, i, sizeof(Texto), comparar);
+
+        for (i = 1; i < aux; ++i) {
+            for (j = 0; textos[i].conteudo[j]; ++j) {
+                if (textos[i].conteudo[j] == textos[i - 1].conteudo[j]) {
+                    ++resultado;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        printf("%u\n", resultado);
+    }
+
+    return 0;
+}
+
+int comparar(Texto *a, Texto *b) {
+    int resultadoComparacao = strcmp(a->conteudo, b->conteudo);
+
+    if (resultadoComparacao == 0)
+        return 0;
+    else if (resultadoComparacao < 0)
+        return -1;
+    else
+        return 1;
+}
