@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+/*Um ponteiro pode ser usado para dizer a uma função onde ela deve depositar o resultado de seus cálculos. Escreva
+uma função hm que converta minutos em horas e minutos. A função recebe um inteiro t e os endereços de duas 
+variáveis inteiras, digamos h e m, e atribui valores não negativos a essas variáveis de modo que tenhamos m < 60 e
+60 h + m = t. Escreva também uma função main que use a função hm.*/
+
+/*A função abaixo recebe três inteiros >= 1, sendo que h e m tem que ser menores a 60*/
+void hm(int t, int *h, int *m)
+{
+    *h = t / 60; // calcula as horas
+    *m = t % 60; // calcula os minutos
+}
+
+int main()
+{
+    int total_minutos = 135; //aqui eu defini um valor arbitrário
+    int horas, minutos;
+
+    hm(total_minutos, &horas, &minutos); //chamada da função para converter minutos em horas e minutos
+
+    printf("%d minutos é igual a %d horas e  %d minutos.\n", total_minutos, horas, minutos);
+
+    return 0;
+}
+
+/*Aqui eu tive que usar vetores, pois isso permite que a função hm mude os valores dentro da main e, assim, não precisa ficar retornando valores*/
