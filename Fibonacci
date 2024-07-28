@@ -1,0 +1,42 @@
+#include <stdio.h>
+
+/*Fibonacci. A sequência de Fibonacci é definida assim: F0 = 0, F1 = 1 e Fn = Fn-1 + Fn-2 para n > 1. Escreva uma função 
+recursiva que receba n e devolva Fn. Escreva uma versão iterativa da função. Sua função recursiva é tão eficiente quanto a
+iterativa? Por quê?*/
+
+/*A função abaixo é a função recursiva que resolve a função de Fibonacci, então ela recebe um inteiro n >= 0 e devolve Fn*/
+int FibonacciR(int n)
+{
+    if(n == 0) return 0;
+    if(n == 1) return 1;
+    return FibonacciR(n-1) + FibonacciR(n-2);    
+}
+
+/*A função abaixo é a função interativa que resolve a sequência de Fibonacci*/
+int FibonacciI(int n)
+{
+    if(n <= 1) return n;
+    
+    int fp = 0;
+    int fa = 1;
+    int i;
+    for(i = 2; i <= n; i++)
+    {
+        int temp = fa;
+        fa = fa + fp;
+        fp = temp;
+    }
+    return fa;
+}
+
+int main()
+{
+    int n = 10;
+
+    printf("Fibonacci recursivo de %d: %d! \n", n, FibonacciR(n));
+    printf("Fibonacci iterativo de %d: %d! \n", n, FibonacciI(n));
+
+    return 0;
+}
+
+/*Nesse caso a função recursiva é mais ineficiente do que a iterativa, pois F(n) é recalculado muitas vezes para um mesmo n.*/
