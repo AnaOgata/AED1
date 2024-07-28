@@ -1,0 +1,11 @@
+#include <stdio.h>
+
+/* Versão recursiva. Escreva uma versão recursiva da função BuscaSequencial. */
+int BuscaSequencialR(int x, int n, int v[])
+{
+    int j = n-1;
+    if(v[j] == x || v[j] > x)
+        return j;
+    else
+        return(x, n-1, v);
+}
