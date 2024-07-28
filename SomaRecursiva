@@ -1,0 +1,29 @@
+#include <stdio.h>
+
+/*Soma. Escreva uma função recursiva que calcule a soma dos elementos positivos do vetor de inteiros v[0...n-1].O
+problema faz sentido quando n = 0? Quanto deve valer a soma neste caso?*/
+
+/*A função recebe um vetor v e um número n >=0 e devolve a soma dos elementos positivos de v[0...n-1]*/
+int soma(int v[], int n)
+{
+    if(n == 0) return 0;
+    else
+    {
+        int s = soma(v, n-1);
+        if(v[n-1] > 0) s += v[n-1];
+        return s;
+    }
+}
+
+int main()
+{
+    int vetor[] = {1, 2, 3, 6, 9, 0, 3, 0};
+    int numero = 8;
+    int s;
+    
+    s = soma(vetor, numero);
+
+    printf("A soma dos elementos do vetor é: %d!\n", s);
+
+    return 0;
+}
