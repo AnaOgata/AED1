@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+/*Escreva uma versão iterativa da função MáximoR.*/
+
+/*A função abaixo recebe um valor n >= 1 e um vetor v e retorna um valor máximo de v[0...n-1].*/
+int Maximo(int v[], int n)
+{
+    int i;
+    int x = v[0];
+    for(i = 0; i < n; i++)
+    {
+        /*x é o elemento máximo de v[0...i-1]*/
+        if(x < v[i])
+            x = v[i];
+        return x;
+    }
+}
