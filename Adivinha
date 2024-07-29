@@ -1,0 +1,238 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#define MAXSIZE 1000
+
+typedef struct No {
+    int dado;
+    struct No *proximo;
+} No;
+
+typedef struct {
+    No *primeiro;
+    No *ultimo;
+} Fila;
+
+typedef struct {
+    No *topo;
+} Pilha;
+
+typedef struct {
+    int dado;
+    int prioridade;
+} Elemento;
+
+typedef struct {
+    int qtd;
+    Elemento dados[MAXSIZE];
+} FilaPrioridade;
+
+void inicializaFila(Fila *);
+void pushFila(Fila *, int);
+int frontFila(Fila *);
+void popFila(Fila *);
+
+void inicializaPilha(Pilha *);
+void pushPilha(Pilha *, int);
+void popPilha(Pilha *);
+int topPilha(Pilha *);
+
+FilaPrioridade* inicializaFilaPrioridade();
+void pushFilaPrioridade(FilaPrioridade *, int, int);
+void popFilaPrioridade(FilaPrioridade *);
+int topFilaPrioridade(FilaPrioridade *);
+void balanceiaInsercao(FilaPrioridade *, int);
+void balanceiaRemocao(FilaPrioridade *, int);
+
+int main()
+{
+    int n;
+    while (scanf("%d", &n) != EOF)
+    {
+        int x, comando, i;
+        bool filaValida, pilhaValida, filaPrioridadeValida;
+        FilaPrioridade *filaPrioridade = inicializaFilaPrioridade();
+        Fila fila;
+        Pilha pilha;
+
+        inicializaFila(&fila);
+        inicializaPilha(&pilha);
+
+        filaValida = pilhaValida = filaPrioridadeValida = true;
+        for (i = 0; i < n; ++i)
+        {
+            scanf("%d %d", &comando, &x);
+
+            if (comando == 1)
+            {
+                pushFilaPrioridade(filaPrioridade, x, x);
+                pushPilha(&pilha, x);
+                pushFila(&fila, x);
+            } else
+            {
+                if (topPilha(&pilha) != x)
+                    pilhaValida = false;
+                else
+                    popPilha(&pilha);
+                
+                if (frontFila(&fila) != x)
+                    filaValida = false;
+                else
+                    popFila(&fila);
+
+                if (topFilaPrioridade(filaPrioridade) != x)
+                    filaPrioridadeValida = false;
+                else
+                    popFilaPrioridade(filaPrioridade);
+            }
+        }
+
+        if (!filaValida && !pilhaValida && !filaPrioridadeValida)
+            printf("impossible\n");
+        else if ((filaValida && pilhaValida) || (filaValida && filaPrioridadeValida) || (pilhaValida && filaPrioridadeValida))
+            printf("not sure\n");
+        else if (filaValida)
+            printf("queue\n");
+        else if (pilhaValida)
+            printf("stack\n");
+        else if (filaPrioridadeValida)
+            printf("priority queue\n");
+
+        free(filaPrioridade);
+    }
+    return 0;
+}
+
+void inicializaFila(Fila *fila)
+{
+    fila->primeiro = fila->ultimo = NULL;
+}
+
+void pushFila(Fila *fila, int x)
+{
+    No *novoNo = (No *) malloc(sizeof(No));
+    if (!novoNo) exit(1);
+
+    novoNo->dado = x;
+    novoNo->proximo = NULL;
+    if (fila->ultimo)
+        fila->ultimo->proximo = novoNo;
+    else
+        fila->primeiro = novoNo;
+    fila->ultimo = novoNo;
+}
+
+void popFila(Fila *fila)
+{
+    if (!fila->primeiro) return;
+
+    No *auxiliar = fila->primeiro;
+    fila->primeiro = auxiliar->proximo;
+    if (!fila->primeiro)
+        fila->ultimo = NULL;
+    free(auxiliar);
+}
+
+int frontFila(Fila *fila) 
+{
+    return fila->primeiro ? fila->primeiro->dado : -1;
+}
+
+void inicializaPilha(Pilha *pilha) 
+{
+    pilha->topo = NULL;
+}
+
+void pushPilha(Pilha *pilha, int x) 
+{
+    No *novoNo = (No *) malloc(sizeof(No));
+    if (!novoNo) exit(1);
+
+    novoNo->dado = x;
+    novoNo->proximo = pilha->topo;
+    pilha->topo = novoNo;
+}
+
+void popPilha(Pilha *pilha) {
+    if (!pilha->topo) return;
+
+    No *auxiliar = pilha->topo;
+    pilha->topo = auxiliar->proximo;
+    free(auxiliar);
+}
+
+int topPilha(Pilha *pilha) 
+{
+    return pilha->topo ? pilha->topo->dado : -1;
+}
+
+FilaPrioridade* inicializaFilaPrioridade() 
+{
+    FilaPrioridade *filaP = (FilaPrioridade *) malloc(sizeof(FilaPrioridade));
+    if (filaP)
+        filaP->qtd = 0;
+    return filaP;
+}
+
+void pushFilaPrioridade(FilaPrioridade *filaP, int prioridade, int id) 
+{
+    if (filaP->qtd == MAXSIZE) exit(1);
+
+    filaP->dados[filaP->qtd].dado = id;
+    filaP->dados[filaP->qtd].prioridade = prioridade;
+    balanceiaInsercao(filaP, filaP->qtd);
+    filaP->qtd++;
+}
+
+void balanceiaInsercao(FilaPrioridade *filaP, int filho) 
+{
+    int pai;
+    Elemento tmp;
+
+    pai = (filho - 1) / 2;
+    while (filho > 0 && filaP->dados[pai].prioridade < filaP->dados[filho].prioridade)
+    {
+        tmp = filaP->dados[filho];
+        filaP->dados[filho] = filaP->dados[pai];
+        filaP->dados[pai] = tmp;
+
+        filho = pai;
+        pai = (pai - 1) / 2;
+    }
+}
+
+int topFilaPrioridade(FilaPrioridade *filaP) 
+{
+    return filaP->qtd > 0 ? filaP->dados[0].dado : -1;
+}
+
+void popFilaPrioridade(FilaPrioridade *filaP) 
+{
+    if (filaP->qtd == 0) exit(1);
+
+    filaP->dados[0] = filaP->dados[--filaP->qtd];
+    balanceiaRemocao(filaP, 0);
+}
+
+void balanceiaRemocao(FilaPrioridade *filaP, int pai) {
+    int filho;
+    Elemento tmp;
+
+    filho = 2 * pai + 1;
+    while (filho < filaP->qtd) 
+    {
+        if (filho + 1 < filaP->qtd && filaP->dados[filho].prioridade < filaP->dados[filho + 1].prioridade)
+            filho++;
+
+        if (filaP->dados[pai].prioridade >= filaP->dados[filho].prioridade)
+            break;
+
+        tmp = filaP->dados[pai];
+        filaP->dados[pai] = filaP->dados[filho];
+        filaP->dados[filho] = tmp;
+        
+        pai = filho;
+        filho = 2 * pai + 1;
+    }
+}
