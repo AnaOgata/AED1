@@ -9,7 +9,8 @@ struct Jogador{
 	int PontosS, PontoB, PontosA;
 };
 
-int main(){
+int main()
+{
 	short NJogadores;
 	char nomeJogador[100];
 	long S = 0;
@@ -22,7 +23,8 @@ int main(){
 	
 	scanf("%hd", &NJogadores);
 	
-	while(NJogadores--){
+	while(NJogadores--)
+    {
 		scanf("%s %d %d %d", nomeJogador, &jogador.saques, &jogador.bloqueios, &jogador.ataques);
 		scanf("%d %d %d", &jogador.PontosS, &jogador.PontoB, &jogador.PontosA);
 		
