@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <math.h>
+
+
+struct Jogador{
+	int saques, bloqueios, ataques;
+	int PontosS, PontoB, PontosA;
+};
+
+int main(){
+	short NJogadores;
+	char nomeJogador[100];
+	long S = 0;
+    long B = 0;
+    long A = 0;
+    long TotalPontosS = 0;
+    long TotalPontosB = 0;
+    long TotalPontosA = 0;
+	struct Jogador jogador;
+	
+	scanf("%hd", &NJogadores);
+	
+	while(NJogadores--){
+		scanf("%s %d %d %d", nomeJogador, &jogador.saques, &jogador.bloqueios, &jogador.ataques);
+		scanf("%d %d %d", &jogador.PontosS, &jogador.PontoB, &jogador.PontosA);
+		
+        S += jogador.saques;
+        B += jogador.bloqueios;
+        A += jogador.ataques;	
+
+        TotalPontosS += jogador.PontosS;
+        TotalPontosB += jogador.PontoB;
+        TotalPontosA += jogador.PontosA;
+		
+	}
+
+	printf("Pontos de Saque: %.2lf %%.\n", (TotalPontosS*100.)/S);
+	printf("Pontos de Bloqueio: %.2lf %%.\n", (TotalPontosB*100.)/B);
+	printf("Pontos de Ataque: %.2lf %%.\n", (TotalPontosA*100.)/A);
+	
+	return 0;
+}
