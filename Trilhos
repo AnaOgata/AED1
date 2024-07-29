@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Stack {
+    char *data;
+    int size;
+    int top;
+} Stack;
+
+void initStack(Stack *s, int size) {
+    s->data = (char *)malloc(size * sizeof(char));
+    s->size = size;
+    s->top = -1;
+}
+
+void push(Stack *s, char value) {
+    if (s->top < s->size - 1) {
+        s->data[++(s->top)] = value;
+    }
+}
+
+char pop(Stack *s) {
+    if (s->top >= 0) {
+        return s->data[(s->top)--];
+    }
+    return '\0'; // Return null character if stack is empty
+}
+
+char top(Stack *s) {
+    if (s->top >= 0) {
+        return s->data[s->top];
+    }
+    return '\0'; // Return null character if stack is empty
+}
+
+int isEmpty(Stack *s) {
+    return s->top == -1;
+}
+
+void freeStack(Stack *s) {
+    free(s->data);
+    s->size = 0;
+    s->top = -1;
+}
+
+int main() {
+    int n, i, j;
+    char linha[2000];
+    char entrada[1000], saida[1000];
+    Stack pilha;
+
+    while (scanf("%d", &n) && n) {
+        initStack(&pilha, n);
+        for (i = 0; i < n; i++) 
+            scanf(" %c", &entrada[i]);
+        for (i = 0; i < n; i++) 
+            scanf(" %c", &saida[i]);
+        entrada[n] = saida[n] = '\0';
+        i = j = 0;
+        while (1) {
+            if (!isEmpty(&pilha) && j < n && top(&pilha) == saida[j]) {
+                pop(&pilha);
+                printf("R");
+                j++;
+            } else if (i < n) {
+                push(&pilha, entrada[i]);
+                printf("I");
+                i++;
+            } else {
+                break;                    
+            }
+        }
+        
+        if (isEmpty(&pilha)) printf("\n");
+        else  printf(" Impossible\n");
+        
+        freeStack(&pilha);
+    }
+    return 0;
+}
