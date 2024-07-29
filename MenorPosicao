@@ -1,0 +1,32 @@
+#include<stdio.h>
+
+#define N 1000
+
+int main()
+{
+	int x[N];
+	int menor, imenor, n;
+	
+	scanf("%d", &n);
+	
+	int i;
+	for(i = 0; i < n; i++)
+    {
+		scanf("%d", &x[i]);
+	}
+	
+	menor = x[0];
+	for(i = 0; i < n; i++)
+    {
+		if(x[i] < menor)
+        {
+			menor= x[i];
+			imenor = i;
+		}
+	}
+	
+	printf("Menor valor: %d\n", menor);
+	printf("Posicao: %d\n", imenor);
+	
+	return 0;
+}
