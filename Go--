@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main()
+{
+    int tamanhoTabuleiro, quantidadePedras;
+    scanf("%d %d", &tamanhoTabuleiro, &quantidadePedras);
+
+    int** tabuleiro = (int**)malloc((tamanhoTabuleiro + 1) * sizeof(int*));
+    int** acumuladoPreto = (int**)malloc((tamanhoTabuleiro + 1) * sizeof(int*));
+    int** acumuladoBranco = (int**)malloc((tamanhoTabuleiro + 1) * sizeof(int*));
+
+    for (int i = 0; i <= tamanhoTabuleiro; i++)
+    {
+        tabuleiro[i] = (int*)calloc(tamanhoTabuleiro + 1, sizeof(int));
+        acumuladoPreto[i] = (int*)calloc(tamanhoTabuleiro + 1, sizeof(int));
+        acumuladoBranco[i] = (int*)calloc(tamanhoTabuleiro + 1, sizeof(int));
+    }
+
+    for (int i = 0; i < quantidadePedras; ++i)
+    {
+        int linhaPreta, colunaPreta;
+        scanf("%d %d", &linhaPreta, &colunaPreta);
+        tabuleiro[linhaPreta][colunaPreta] = 1;
+    }
+    for (int i = 0; i < quantidadePedras; ++i)
+    {
+        int linhaBranca, colunaBranca;
+        scanf("%d %d", &linhaBranca, &colunaBranca);
+        tabuleiro[linhaBranca][colunaBranca] = 2; 
+    }
+
+    for (int i = 1; i <= tamanhoTabuleiro; ++i)
+    {
+        for (int j = 1; j <= tamanhoTabuleiro; ++j)
+        {
+            acumuladoPreto[i][j] = acumuladoPreto[i - 1][j] + acumuladoPreto[i][j - 1] - acumuladoPreto[i - 1][j - 1] + (tabuleiro[i][j] == 1 ? 1 : 0);
+            acumuladoBranco[i][j] = acumuladoBranco[i - 1][j] + acumuladoBranco[i][j - 1] - acumuladoBranco[i - 1][j - 1] + (tabuleiro[i][j] == 2 ? 1 : 0);
+        }
+    }
+
+    int areasPretas = 0, areasBrancas = 0;
+
+    for (int tamanho = 1; tamanho <= tamanhoTabuleiro; ++tamanho)
+    {
+        for (int linha = 1; linha + tamanho - 1 <= tamanhoTabuleiro; ++linha)
+        {
+            for (int coluna = 1; coluna + tamanho - 1 <= tamanhoTabuleiro; ++coluna)
+            {
+                int linhaFinal = linha + tamanho - 1;
+                int colunaFinal = coluna + tamanho - 1;
+                int contagemPreto = acumuladoPreto[linhaFinal][colunaFinal] - acumuladoPreto[linha - 1][colunaFinal] - acumuladoPreto[linhaFinal][coluna - 1] + acumuladoPreto[linha - 1][coluna - 1];
+                int contagemBranco = acumuladoBranco[linhaFinal][colunaFinal] - acumuladoBranco[linha - 1][colunaFinal] - acumuladoBranco[linhaFinal][coluna - 1] + acumuladoBranco[linha - 1][coluna - 1];
+
+                if (contagemPreto > 0 && contagemBranco == 0)
+                {
+                    areasPretas++;
+                }
+                if (contagemBranco > 0 && contagemPreto == 0)
+                {
+                    areasBrancas++;
+                }
+            }
+        }
+    }
+
+    printf("%d %d\n", areasPretas, areasBrancas);
+
+    for (int i = 0; i <= tamanhoTabuleiro; i++)
+    {
+        free(tabuleiro[i]);
+        free(acumuladoPreto[i]);
+        free(acumuladoBranco[i]);
+    }
+    free(tabuleiro);
+    free(acumuladoPreto);
+    free(acumuladoBranco);
+
+    return 0;
+}
