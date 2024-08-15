@@ -1,0 +1,119 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct No {	
+    struct No *esq;
+	int a;
+	struct No *dir;
+};
+typedef struct No Arvore;
+
+int ordem;
+
+Arvore * BuscaPai(Arvore *r, int v)
+{	
+    if(r == NULL)
+    {
+        return NULL;
+    }
+	else
+    {
+        if(v <= r->a)
+        {
+            if(r->esq == NULL)
+				return r;
+			else
+				return BuscaPai(r->esq, v);
+        }
+		else
+        {
+            if(r->dir == NULL)
+				return r;
+			else
+				return BuscaPai(r->dir, v);
+        }
+    }
+}
+
+int ImprimeArvore(Arvore *r)
+{
+	if(r != NULL)
+	{
+		if(ordem == 1)
+        {
+			printf(" %d", r->a);
+			ImprimeArvore(r->esq);
+			ImprimeArvore(r->dir);
+		}
+		if(ordem == 2)
+        {
+			ImprimeArvore(r->esq);
+			printf(" %d", r->a);
+			ImprimeArvore(r->dir);
+		}
+		if(ordem == 3)
+        {
+			ImprimeArvore(r->esq);
+			ImprimeArvore(r->dir);
+			printf(" %d", r->a);
+		}
+	}
+
+	return 0;
+}
+
+int main()
+{	
+    Arvore *raiz, *pai, *aux;
+	int t, n, c, d, noh;
+
+	raiz = NULL;
+	scanf("%d", &n);
+
+	for(c=1; c<=n; c++)
+	{
+		raiz = NULL;
+
+		scanf("%d", &t);
+		for(d=0; d<t; d++)
+		{
+			scanf("%d", &noh);
+
+			aux = (Arvore *) malloc(sizeof(Arvore));
+			aux->a = noh;
+			aux->esq = NULL;
+			aux->dir = NULL;
+
+			pai = BuscaPai(raiz, noh);
+			if(pai == NULL)
+            {
+                raiz = aux;
+            }
+			else
+            {
+                if(noh <= pai->a)
+					pai->esq = aux;
+				else
+					pai->dir = aux;
+            }
+		}
+
+		printf("Case %d:", c);
+
+		printf("\nPre.:");
+		ordem = 1;
+		ImprimeArvore(raiz);
+
+		printf("\nIn..:");
+		ordem = 2;
+		ImprimeArvore(raiz);
+
+		printf("\nPost:");
+		ordem = 3;
+		ImprimeArvore(raiz);
+
+		printf("\n\n");
+
+	}
+	return 0;
+}
