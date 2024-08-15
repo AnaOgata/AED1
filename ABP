@@ -1,0 +1,184 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define true 1
+#define false 0
+#define TAMANHO_MAXIMO 100
+
+typedef struct noArvore {
+
+    char caractere;
+    struct noArvore *esquerda;
+    struct noArvore *direita;
+
+} noArvore;
+
+void percursoInfixo(noArvore *);
+void percursoPrefixo(noArvore *);
+void percursoPosfixo(noArvore *);
+void imprimirInfixo(char *);
+void imprimirPrefixo(char *);
+void imprimirPosfixo(char *);
+noArvore* inserir(noArvore *, char);
+_Bool buscar(noArvore *, char);
+
+char caracteresInfixo[TAMANHO_MAXIMO] = { 0 };
+char caracteresPosfixo[TAMANHO_MAXIMO] = { 0 };
+char caracteresPrefixo[TAMANHO_MAXIMO] = { 0 };
+
+int indiceInfixo = 0;
+int indicePosfixo = 0;
+int indicePrefixo = 0;
+
+void testar(noArvore *no)
+{
+    if (no != NULL)
+    {
+        testar(no->esquerda);
+        printf("%c ", no->caractere);
+        testar(no->direita);
+    }
+}
+
+int main ()
+{
+    char comando[20], caractere;
+
+    noArvore *raiz = NULL;
+    while (scanf("%s", comando) != EOF)
+    {
+        if (strcmp(comando, "I") == 0)
+        {
+            scanf(" %c", &caractere);
+            raiz = inserir(raiz, caractere);
+        }
+        else if (strcmp(comando, "INFIXA") == 0)
+        {
+            percursoInfixo(raiz);
+            imprimirInfixo(caracteresInfixo);
+        }
+        else if (strcmp(comando, "PREFIXA") == 0)
+        {
+            percursoPrefixo(raiz);
+            imprimirPrefixo(caracteresPrefixo);
+        }
+        else if (strcmp(comando, "P") == 0)
+        {
+            scanf(" %c", &caractere);
+            if (buscar(raiz, caractere))
+                printf("%c existe\n", caractere);
+            else
+                printf("%c nao existe\n", caractere);
+        }
+        else
+        {
+            percursoPosfixo(raiz);
+            imprimirPosfixo(caracteresPosfixo);
+        }
+    }
+    return 0;
+}
+
+noArvore* inserir(noArvore *no, char caractere)
+{
+    if (no == NULL)
+    {
+        no = (noArvore *) malloc(sizeof(noArvore));
+        no->caractere = caractere;
+        no->direita = no->esquerda = NULL;
+    }
+    else if (caractere < no->caractere)
+    {
+        no->esquerda = inserir(no->esquerda, caractere);
+    }
+    else
+    {
+        no->direita = inserir(no->direita, caractere);
+    }
+
+    return no;
+}
+
+_Bool buscar(noArvore *no, char caractere)
+{
+    if (no == NULL)
+        return false;
+
+    if (no->caractere == caractere)
+        return true;
+
+    if (caractere < no->caractere)
+        return buscar(no->esquerda, caractere);
+    else
+        return buscar(no->direita, caractere);
+}
+
+void imprimirInfixo(char *caracteres)
+{
+    for (int z = 0; z < indiceInfixo; ++z)
+    {
+        if (z > 0)
+            printf(" ");
+        printf("%c", caracteresInfixo[z]);
+    }
+
+    indiceInfixo = 0;
+    printf("\n");
+}
+
+void imprimirPrefixo(char *caracteres)
+{
+    for (int z = 0; z < indicePrefixo; ++z)
+    {
+        if (z > 0)
+            printf(" ");
+        printf("%c", caracteresPrefixo[z]);
+    }
+
+    indicePrefixo = 0;
+    printf("\n");
+}
+
+void imprimirPosfixo(char *caracteres)
+{
+    for (int z = 0; z < indicePosfixo; ++z)
+    {
+        if (z > 0)
+            printf(" ");
+        printf("%c", caracteresPosfixo[z]);
+    }
+
+    indicePosfixo = 0;
+    printf("\n");
+}
+
+void percursoInfixo(noArvore *no)
+{
+    if (no != NULL)
+    {
+        percursoInfixo(no->esquerda);
+        caracteresInfixo[indiceInfixo++] = no->caractere;
+        percursoInfixo(no->direita);
+    }
+}
+
+void percursoPosfixo(noArvore *no)
+{
+    if (no != NULL)
+    {
+        percursoPosfixo(no->esquerda);
+        percursoPosfixo(no->direita);
+        caracteresPosfixo[indicePosfixo++] = no->caractere;
+    }
+}
+
+void percursoPrefixo(noArvore *no)
+{
+    if (no != NULL)
+    {
+        caracteresPrefixo[indicePrefixo++] = no->caractere;
+        percursoPrefixo(no->esquerda);
+        percursoPrefixo(no->direita);
+    }
+}
