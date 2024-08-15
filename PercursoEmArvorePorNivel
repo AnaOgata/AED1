@@ -1,0 +1,120 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+#define MAX_TAM 1000
+
+struct No {   
+    int n;
+    struct No *esq;
+    struct No *dir;
+};
+typedef struct No Arvore;
+
+Arvore * BuscarPai(Arvore *r, int n)
+{   
+    if(r == NULL)
+        return NULL;
+    else if (n == r->n)
+    {
+        return r;
+    }
+    else if(n < r->n)
+    { 
+        if(r->esq == NULL)
+        {
+            return r;
+        }
+        else
+        {
+            return BuscarPai(r->esq, n);
+        }
+    }
+     else
+     {
+        if(r->dir == NULL)
+            return r;
+        else
+            return BuscarPai(r->dir, n);
+    }
+}
+
+
+int main()
+{   
+    Arvore *raiz, *pai, *aux, *fila[MAX_TAM];
+    int v, casos, nC, contador, nodo, a, b;
+
+    scanf("%d", &casos);
+
+    for(nC=1; nC<=casos; nC++)
+    {
+		for(contador=0;contador<MAX_TAM;contador++)
+        {
+            fila[contador] = NULL;
+        }
+        raiz = NULL;
+
+        scanf("%d", &v);
+        for(contador=0; contador<v; contador++)
+        {
+            scanf("%d", &nodo);
+
+            aux = (Arvore *) malloc(sizeof(Arvore));
+            aux->n = nodo;
+            aux->esq = aux->dir = NULL;
+
+            pai = BuscarPai(raiz, nodo);
+            if(pai == NULL)
+            {
+                raiz = aux;
+            }
+            else if(pai->n != nodo)
+            {
+                if(nodo < pai->n)
+                {
+                    pai->esq = aux;
+                }
+                else
+                {
+                    pai->dir = aux;
+                }
+            }
+        }
+
+        printf("Case %d:\n", nC);
+
+        aux = raiz;
+        a = 1;
+        b  = 1;
+        fila[0] = aux;
+        while(aux != NULL)
+        {
+            printf("%d", aux->n);
+
+            if(aux->esq != NULL)
+            {
+                fila[a] = aux->esq;
+                a++;
+            }
+
+            if(aux->dir != NULL)
+            {
+                fila[a] = aux->dir;
+                a++;
+            }
+
+            if(fila[b]!=NULL)
+            {
+                printf(" ");
+            }
+            aux = fila[b];
+            b++;
+        }
+
+        printf("\n\n");
+    }
+    
+    return 0;
+}
